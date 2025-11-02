@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2f0033;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    gap: 20px;
+}
+
+.input-field {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #8f047c;
+    border-radius: 5px;
+    width: 250px;
+    transition: border-color 0.3s ease;
+    background-color: white;
+    color: #2f0033;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #680c5b;
+}
+
+.error-message {
+    color: #ff3333;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.hidden {
+    display: none;
+}
+
+.center-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #680c5b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.center-button:hover {
+    background-color: #8f047c;
+}
+
+/* Stili per welcome e bottoni flottanti */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ef8cf8ff;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.welcome-container h1 {
+    color: #f32d90ff;
+    margin-bottom: 10px;
+    font-size: 3rem;
+}
+
+.welcome-container p {
+    font-size: 1.1rem;
+    color: #f32d90ff;
+    margin-bottom: 20px;
+}
+
+/* floating buttons */
+.floating-button {
+    padding: 15px 30px;
+    font-size: 16px;
+    background-color: #f32d90ff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    position: fixed;
+}
+.floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* back button e stili pagine */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #f32d90ff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+.back-button:hover { background-color: #d81b7aff; }
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    background-color: #ef8cf8ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #2f0033;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.page h1 {
+    color: #f32d90ff;
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+}
+.page p { font-size: 1.1rem; max-width: 800px; margin-bottom: 10px; }
+
+/* piccole card per contenuti */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    max-width: 700px;
+    margin: 12px;
+    text-align: left;
+}

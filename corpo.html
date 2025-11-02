@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Corpo</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #ef8cf8ff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #f32d90ff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+        .back-button:hover {
+            background-color: #d81b7aff;
+        }
+        .body-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .body-image {
+            height: 80vh;
+            stroke: #f32d90ff;
+            stroke-width: 1;
+        }
+        .body-parts { cursor: pointer; }
+        .head-zone, .heart-zone, .hands-zone, .legs-zone {
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .head-zone { fill: #ff69b4; }
+        .heart-zone { fill: #ff4d4d; }
+        .hands-zone { fill: #9370db; }
+        .legs-zone { fill: #40e0d0; }
+        .head-zone:hover, .heart-zone:hover, .hands-zone:hover, .legs-zone:hover {
+            opacity: 1;
+            transform-origin: 50% 50%;
+            transform: scale(1.2);
+            transform-box: fill-box;
+        }
+        .arrow-tooltip {
+            position: fixed;
+            background-color: #f32d90ff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .arrow {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background-color: #f32d90ff;
+            transform-origin: left center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 0 5px 10px;
+            border-color: transparent transparent transparent #f32d90ff;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">← Torna indietro</button>
+
+    <div class="body-container">
+        <svg class="body-image" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+            <g class="body-parts">
+                <circle cx="50" cy="25" r="15" class="head-zone" />
+                <path d="M35 40 L65 40 L60 100 L40 100 Z" class="heart-zone" />
+                <path d="M35 40 L20 70 L25 75 L40 50" class="hands-zone" />
+                <path d="M65 40 L80 70 L75 75 L60 50" class="hands-zone" />
+                <path d="M40 100 L35 150 L40 150 L45 100" class="legs-zone" />
+                <path d="M60 100 L65 150 L60 150 L55 100" class="legs-zone" />
+            </g>
+        </svg>
+        <div id="tooltips"></div>
+    </div>
+
+    <script>
+        const tooltipContainer = document.createElement('div');
+        tooltipContainer.className = 'tooltip-container';
+        document.body.appendChild(tooltipContainer);
+
+        const messages = {
+            'head-zone': "Il tuo viso è stupendo, i tuoi occhi sono come due galassie e il tuo sorriso è indescrivibile!",
+            'heart-zone': "Il tuo cuore è grandissimo e sono fiero di esserne parte!!",
+            'hands-zone': "Le tue mani sono perfette per stringere le mie :D",
+            'legs-zone': "Le gambe (o le protesi) sono perfette così come sono!!!"
+        };
+
+        document.querySelectorAll('.head-zone, .heart-zone, .hands-zone, .legs-zone').forEach(zone => {
+            const showTooltip = (e) => {
+                const rect = e.target.getBoundingClientRect();
+                const arrow = document.createElement('div');
+                arrow.className = 'arrow';
+                const tooltip = document.createElement('div');
+                tooltip.className = 'arrow-tooltip';
+                tooltip.textContent = messages[e.target.className.baseVal];
+
+                let arrowAngle, tooltipX, tooltipY, arrowLength;
+                switch (e.target.className.baseVal) {
+                    case 'head-zone': arrowAngle = -45; tooltipX = rect.right + 100; tooltipY = rect.top - 30; arrowLength = 120; break;
+                    case 'heart-zone': arrowAngle = 0; tooltipX = rect.right + 100; tooltipY = rect.top + rect.height / 2 - 20; arrowLength = 100; break;
+                    case 'hands-zone': arrowAngle = 30; tooltipX = rect.right + 120; tooltipY = rect.top + 20; arrowLength = 140; break;
+                    case 'legs-zone': arrowAngle = 45; tooltipX = rect.right + 100; tooltipY = rect.bottom + 20; arrowLength = 120; break;
+                }
+
+                arrow.style.position = 'fixed';
+                arrow.style.left = `${rect.right}px`;
+                arrow.style.top = `${rect.top + rect.height / 2}px`;
+                arrow.style.width = `${arrowLength}px`;
+                arrow.style.transform = `rotate(${arrowAngle}deg)`;
+                arrow.style.opacity = '1';
+
+                tooltip.style.position = 'fixed';
+                tooltip.style.left = `${tooltipX}px`;
+                tooltip.style.top = `${tooltipY}px`;
+                tooltip.style.opacity = '1';
+
+                tooltipContainer.innerHTML = '';
+                tooltipContainer.appendChild(arrow);
+                tooltipContainer.appendChild(tooltip);
+            };
+
+            const hideTooltip = () => { tooltipContainer.innerHTML = ''; };
+
+            zone.addEventListener('mouseover', showTooltip);
+            zone.addEventListener('mouseout', hideTooltip);
+            zone.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (tooltipContainer.innerHTML.trim() !== '') hideTooltip();
+                else showTooltip(e);
+            });
+
+            document.addEventListener('touchstart', (e) => {
+                if (!e.target.closest('.body-parts')) hideTooltip();
+            });
+        });
+    </script>
+</body>
+</html>
